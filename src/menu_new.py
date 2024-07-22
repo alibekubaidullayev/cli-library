@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Optional, Union
+from typing import Callable, Dict, List, Optional, Union, Set
 
 
 class Element:
@@ -32,17 +32,24 @@ class Menu:
         cls._control_counter += 1
         return cls._labels[cls._control_counter]
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, root: bool = False) -> None:
         self._name: str = name
         self._elements: List[Element] = []
         self._controls: List[Element] = []
+        self._previous: Optional["Menu"] = None
+        self._root: bool = root
+
+    def set_prev(self, prev: "Menu") -> None:
+        if not self._root and not self._previous:
+            self._previous = prev
+            self.add_control("Prev", self._previous)
 
     def add_element(self, name: str, action: Union[Callable, "Menu"]) -> None:
         el = Element(name=name, action=action)
         el.set_key(str(self.give_key()))
         self._elements.append(el)
 
-    def add_control(self, name: str, action: "Menu") -> None:
+    def add_control(self, name: str, action: Union[Callable, "Menu"]) -> None:
         cn = Element(name=name, action=action)
         cn.set_key(self.give_cnt())
         self._controls.append(cn)
@@ -73,4 +80,6 @@ if __name__ == "__main__":
     menu.add_control("Exit", exit_menu)
     exit_meu = Menu("Exit")
     menu.add_control("t", exit_meu)
+    menu.add_control("x", exit_meu)
+    menu.add_control("b", exit_meu)
     menu.draw_menu()
