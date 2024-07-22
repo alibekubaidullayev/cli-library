@@ -24,3 +24,13 @@ def accept_input(book_instance: Book, field_name: str) -> bool:
         except AttributeError as e:
             print(f"Error setting attribute: {e}. Please, try again!")
             continue
+
+
+if __name__ == "__main__":
+    book: Book = Book(author="John")
+    book.year = 1984
+    book2: Book = Book(title="How to become someone")
+    book3: Book = Book()
+    print(book)
+    print(book2)
+    print(book3)

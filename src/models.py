@@ -8,7 +8,7 @@ AUTHOR_MAX_SIZE: int = 50
 
 class BookStatus(enum.Enum):
     IN_STOCK = "in_stock"
-    GIVEN = "given"
+    ISSUED = "issued"
 
 
 class Book:
@@ -75,3 +75,16 @@ class Book:
     @property
     def status(self) -> BookStatus:
         return self._status
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    def change_status(self, status: BookStatus) -> None:
+        self._status = status
+
+    def __str__(self) -> str:
+        return f"[{self.id}, {self.title}, {self.author}, {self.year}]"
+
+    def __repr__(self) -> str:
+        return self.__str__()
