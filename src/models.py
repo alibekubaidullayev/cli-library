@@ -47,7 +47,7 @@ class Book:
     @title.setter
     def title(self, value: str) -> None:
         if not (1 <= len(value) <= TITLE_MAX_SIZE):
-            raise ValueError(f"Title must have size from 1 to {TITLE_MAX_SIZE}")
+            raise AttributeError(f"Title must have size from 1 to {TITLE_MAX_SIZE}")
         self._title = value
 
     @property
@@ -57,7 +57,7 @@ class Book:
     @author.setter
     def author(self, value: str) -> None:
         if not (1 <= len(value) <= AUTHOR_MAX_SIZE):
-            raise ValueError(f"Author must have size from 1 to {AUTHOR_MAX_SIZE}")
+            raise AttributeError(f"Author must have size from 1 to {AUTHOR_MAX_SIZE}")
         self._author = value
 
     @property
@@ -67,7 +67,9 @@ class Book:
     @year.setter
     def year(self, value: int) -> None:
         if not (0 <= value <= datetime.now().year):
-            raise ValueError(f"The year must be between 0 and {datetime.now().year}")
+            raise AttributeError(
+                f"The year must be between 0 and {datetime.now().year}"
+            )
         self._year = value
 
     @property
