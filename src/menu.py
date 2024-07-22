@@ -1,22 +1,36 @@
 from typing import Callable, Dict, List, Optional, Union
 
 
+class Button:
+    def __init__(self, name: str, action: Union[Callable, "Menu"]):
+        self.name = name
+        self.action = action
+        self.key = None
+
+    def set_key(self, value: str) -> None:
+        self.key = value
+
+
 class Menu:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, root: bool = False) -> None:
         self.name: str = name
         self.previous: Optional["Menu"] = None
         self.available: List["Menu"] = []
         self.elements: Dict[str, Union[Callable, "Menu"]] = {}
         self.elements_mapping: Dict[int, str] = {}
         self.available_mapping: Dict[str, "Menu"] = {}
+        self.root = root
+
+    def set_available(self, av: List["Menu"]) -> None:
+        self.available = av
 
     def get_available(self) -> List["Menu"]:
-        if self.previous:
+        if self.previous and not self.root:
             return [*self.available, self.previous]
         return self.available
 
     def set_mapping(self) -> None:
-        if len(self.elements_mapping) > 0 and len(self.available_mapping) > 0:
+        if self.elements_mapping and self.available_mapping:
             return
 
         for i, el in enumerate(self.elements.keys()):
