@@ -27,3 +27,7 @@ class Screen:
             self.set_new_menu(action)
         elif callable(action):
             action()
+
+    def go_previous(self) -> None:
+        if self.menu.previous:
+            self.set_new_menu(self.menu.previous)
