@@ -10,13 +10,16 @@ class Element:
         self.key = key
 
     def set_key(self, value: str) -> None:
-        self.key = value.lower()
+        self.key = value.upper()
 
     def set_name(self, value: str) -> None:
         self.name = value
 
     def __str__(self) -> str:
         return f"[{self.key}] {self.name}"
+
+    def __len__(self) -> int:
+        return len(self.name) + 4
 
     def __repr__(self) -> str:
         return f"[[{self.key}] {self.name} {self.action}]"
@@ -27,16 +30,6 @@ class Menu:
     _control_counter = -1
     _labels = "QWERTYUIOP"
 
-    @classmethod
-    def give_key(cls) -> int:
-        cls._element_counter += 1
-        return cls._element_counter
-
-    @classmethod
-    def give_cnt(cls) -> str:
-        cls._control_counter += 1
-        return cls._labels[cls._control_counter]
-
     def __init__(self, name: str, root: bool = False) -> None:
         self._name: str = name
         self._elements: List[Element] = []
@@ -44,6 +37,17 @@ class Menu:
         self._previous: Optional["Menu"] = None
         self._root: bool = root
         self._mapping: Dict[Optional[str], Union[Callable, "Menu"]] = {}
+
+        if self._root:
+            self.add_control(name="Exit", action=lambda: exit(), key="x")
+
+    def give_key(self) -> int:
+        self._element_counter += 1
+        return self._element_counter
+
+    def give_cnt(self) -> str:
+        self._control_counter += 1
+        return self._labels[self._control_counter]
 
     def get_name(self) -> str:
         return self._name
@@ -69,6 +73,8 @@ class Menu:
     def add_control(
         self, action: Union[Callable, "Menu"], name: str, key: Optional[str] = None
     ) -> None:
+        if key:
+            key = key.upper()
         cn = Element(name=name, action=action, key=key)
         if not key:
             cn.set_key(self.give_cnt())
@@ -76,14 +82,17 @@ class Menu:
 
     def draw_menu(self) -> None:
         print(f"***{self._name}***")
-        print("--------------------------------")
+        print("-" * self.get_controls_len())
         self.draw_elements()
-        print("--------------------------------")
         self.draw_controls()
+        print("-" * self.get_controls_len())
 
     def draw_elements(self) -> None:
         for el in self._elements:
             print(el)
+
+    def get_controls_len(self) -> int:
+        return sum([len(cn) for cn in self._controls]) + len(self._controls)
 
     def draw_controls(self) -> None:
         for cn in self._controls:

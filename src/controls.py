@@ -1,15 +1,16 @@
+from sys import dont_write_bytecode
 import time
 from typing import Union
 
+from menu import Menu
 from models import Book
 from screen import Screen
-from menu import Menu
 
 
 def accept_input(screen: Screen, field_name: str) -> Union[bool, str]:
     if not hasattr(screen.context.get("book"), field_name):
         raise AttributeError(
-            f"{screen.context.get("book")} has no attribute {field_name}"
+            f"{screen.context.get('book')} has no attribute {field_name}"
         )
 
     attribute_type = type(getattr(screen.context.get("book"), field_name))
@@ -32,16 +33,17 @@ def accept_input(screen: Screen, field_name: str) -> Union[bool, str]:
     return True
 
 
-def book_inserter(attr: str) -> None:
-    while True:
-        result: Union[bool, str] = accept_input(book, attr)
-        if result is True:
-            print("Accepted!")
-            time.sleep(0.3)
-            break
-        if result is False:
-            print("'X' was pressed. Leaving book adding menu...")
-            time.sleep(1)
-            break
+def insert_attr(screen: Screen, attr: str) -> None:
+    done_or_err: Union[bool, str] = accept_input(screen, attr)
 
-        print(result)
+    if isinstance(done_or_err, bool):
+        if done_or_err:
+            screen.set_context_info(str(screen.context.get("book")))
+            print(f"{attr.capitalize()} inserted")
+        else:
+            print("Cancelling assignment")
+    elif isinstance(done_or_err, str):
+        print(done_or_err)
+        time.sleep(0.5)
+
+    time.sleep(0.7)

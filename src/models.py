@@ -29,6 +29,7 @@ class Book:
         self._title = ""
         self._author = ""
         self._year = 0
+        self.fully_set = False
 
         if title:
             self.title = title
@@ -39,6 +40,9 @@ class Book:
 
         self._status = status
         self._id = self._generate_id()
+
+        if self._title and self._author and self._year:
+            self.fully_set = True
 
     @property
     def title(self) -> str:
@@ -83,8 +87,15 @@ class Book:
     def change_status(self, status: BookStatus) -> None:
         self._status = status
 
-    def __str__(self) -> str:
-        return f"[{self.id}, {self.title}, {self.author}, {self.year}]"
-
     def __repr__(self) -> str:
         return self.__str__()
+
+    def __str__(self) -> str:
+        parts = [f"id: {self.id}"]
+        if self._title:
+            parts.append(f"title: {self.title}")
+        if self._author:
+            parts.append(f"author: {self.author}")
+        if self._year:
+            parts.append(f"year: {self.year}")
+        return f"{', '.join(parts)}"
