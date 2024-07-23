@@ -8,9 +8,10 @@ from menu import Menu
 class Screen:
     def __init__(self, menu: Menu) -> None:
         self.menu = menu
+        self.context = {}
 
     def set_new_menu(self, new_menu: Menu) -> None:
-        new_menu.previous = self.menu
+        new_menu.set_prev(self.menu)
         self.menu = new_menu
 
     def render(self) -> None:
@@ -22,12 +23,8 @@ class Screen:
         sys.stdout.flush()
 
     def take_action(self, inp: str) -> None:
-        action: Union[Menu, Callable] = self.menu.get_mapping()[inp.upper()]
+        action: Union[Callable, Menu] = self.menu.get_mapping()[inp.lower()]
         if isinstance(action, Menu):
             self.set_new_menu(action)
         elif callable(action):
             action()
-
-    def go_previous(self) -> None:
-        if self.menu.previous:
-            self.set_new_menu(self.menu.previous)
