@@ -3,7 +3,10 @@ from typing import Callable, Dict, List, Optional, Union
 
 class Element:
     def __init__(
-        self, action: Union[Callable, "Menu"], name: str, key: Optional[str] = None
+        self,
+        action: Union[Callable, "Menu"],
+        name: str,
+        key: Optional[str] = None,
     ) -> None:
         self.name = name
         self.action = action

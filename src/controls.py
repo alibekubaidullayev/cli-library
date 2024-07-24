@@ -47,3 +47,7 @@ def insert_attr(screen: Screen, attr: str) -> None:
         time.sleep(0.5)
 
     time.sleep(0.7)
+
+
+def submit_to_db(screen: Screen) -> None:
+    pass
