@@ -50,5 +50,8 @@ class Screen:
         elif callable(action):
             action()
 
-    def set_context_info(self, info: str) -> None:
+    def set_context_info(self, info: Union[str, None]) -> None:
         self.context["context_info"][self.menu] = info
+
+    def clean_context_info(self) -> None:
+        self.set_context_info(None)

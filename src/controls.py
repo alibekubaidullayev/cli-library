@@ -1,4 +1,3 @@
-from sys import dont_write_bytecode
 import time
 from typing import Union
 
@@ -51,3 +50,8 @@ def insert_attr(screen: Screen, attr: str) -> None:
 
 def submit_to_db(screen: Screen) -> None:
     pass
+
+
+def clean_book(screen: Screen) -> None:
+    screen.context["book"] = Book()
+    screen.clean_context_info()

@@ -1,4 +1,5 @@
 import enum
+import json
 from datetime import datetime
 from typing import Optional
 
@@ -99,3 +100,14 @@ class Book:
         if self._year:
             parts.append(f"year: {self.year}")
         return f"{', '.join(parts)}"
+
+    def to_json(self) -> str:
+        dict = {
+            "id": self._id,
+            "title": self.title,
+            "author": self.author,
+            "year": self.year,
+            "status": self.status,
+        }
+
+        return json.dumps(dict, indent=4)

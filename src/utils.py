@@ -1,9 +1,7 @@
-import time
-from typing import Union
+from typing import Callable, Protocol, Union
+from functools import wraps
 
-from models import Book
 from screen import Screen
-from menu import Menu
 
 
 def accept_input(screen: Screen, field_name: str) -> Union[bool, str]:
@@ -32,16 +30,16 @@ def accept_input(screen: Screen, field_name: str) -> Union[bool, str]:
     return True
 
 
-def book_inserter(attr: str) -> None:
-    while True:
-        result: Union[bool, str] = accept_input(book, attr)
-        if result is True:
-            print("Accepted!")
-            time.sleep(0.3)
-            break
-        if result is False:
-            print("'X' was pressed. Leaving book adding menu...")
-            time.sleep(1)
-            break
+def error_handler(func: Callable) -> Callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            raise Exception(f"Error occured in '{func.__name__}': {e}")
 
-        print(result)
+    return wrapper
+
+
+class JSONSerializable(Protocol):
+    def to_json(self) -> str: ...
