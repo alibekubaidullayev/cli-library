@@ -1,1 +1,1 @@
-from .controls import clean_book, add_book
+from .controls import add_book, clean_book, search_book

@@ -1,12 +1,11 @@
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 from core import BOOK_TABLE_NAME
-from custom_types import DictProtocol
-from .base import create, read, delete, list
+from .base import create, delete, list, read
 
 
-def create_book(obj: DictProtocol) -> None:
-    create(obj, BOOK_TABLE_NAME)
+def create_book(book) -> None:
+    create(book, BOOK_TABLE_NAME)
 
 
 def read_book(id: int) -> Dict[str, Any]:

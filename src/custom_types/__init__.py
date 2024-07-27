@@ -1,1 +1,2 @@
-from .types import DictProtocol, DatabaseError, TableNotFoundError, ItemNotFoundError
+from .types import ItemNotFoundError  # noqa
+from .types import DatabaseError, DictProtocol, TableNotFoundError

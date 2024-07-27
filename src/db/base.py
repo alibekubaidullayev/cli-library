@@ -1,7 +1,8 @@
 from typing import Any, Dict, List
 
-from custom_types import TableNotFoundError, DictProtocol, ItemNotFoundError
 from core import DB_PATH, read_db, write_db
+from custom_types import DictProtocol, ItemNotFoundError, TableNotFoundError
+
 
 def get_table(db: Dict[str, Any], table_name: str) -> list:
     db_table = db.get(table_name)

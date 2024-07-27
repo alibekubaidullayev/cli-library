@@ -1,0 +1,88 @@
+{
+    "books": [
+        {
+            "id": 1,
+            "title": "The Catcher in the Rye",
+            "author": "J.D. Salinger",
+            "year": 1951,
+            "status": "in_stock"
+        },
+        {
+            "id": 2,
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "year": 1960,
+            "status": "issued"
+        },
+        {
+            "id": 3,
+            "title": "1984",
+            "author": "George Orwell",
+            "year": 1949,
+            "status": "in_stock"
+        },
+        {
+            "id": 4,
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "year": 1813,
+            "status": "in_stock"
+        },
+        {
+            "id": 5,
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "year": 1925,
+            "status": "issued"
+        },
+        {
+            "id": 6,
+            "title": "Moby-Dick",
+            "author": "Herman Melville",
+            "year": 1851,
+            "status": "in_stock"
+        },
+        {
+            "id": 7,
+            "title": "War and Peace",
+            "author": "Leo Tolstoy",
+            "year": 1869,
+            "status": "issued"
+        },
+        {
+            "id": 8,
+            "title": "Ulysses",
+            "author": "James Joyce",
+            "year": 1922,
+            "status": "in_stock"
+        },
+        {
+            "id": 9,
+            "title": "The Odyssey",
+            "author": "Homer",
+            "year": -800,
+            "status": "in_stock"
+        },
+        {
+            "id": 10,
+            "title": "Crime and Punishment",
+            "author": "Fyodor Dostoevsky",
+            "year": 1866,
+            "status": "issued"
+        },
+        {
+            "id": 11,
+            "title": "Us",
+            "author": "Me",
+            "year": 2011,
+            "status": "in_stock"
+        },
+        {
+            "id": 12,
+            "title": "",
+            "author": "",
+            "year": 210,
+            "status": "in_stock"
+        }
+    ]
+}

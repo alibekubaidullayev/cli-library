@@ -1,2 +1,2 @@
-from .consts import BOOK_TABLE_NAME, DB_PATH
-from .db import read_db, write_db, init_db
+from .consts import BOOK_TABLE_NAME, DB_PATH  # noqa
+from .db import init_db, read_db, write_db  # noqa

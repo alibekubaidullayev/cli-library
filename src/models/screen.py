@@ -1,9 +1,9 @@
 import sys
 import time
-from typing import Callable, Union, Optional
+from typing import Callable, Optional, Union
 
-from .menu import Menu
 from .book import Book
+from .menu import Menu
 
 
 class Screen:

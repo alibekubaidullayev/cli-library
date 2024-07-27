@@ -1,7 +1,8 @@
 from time import sleep
-from typing import Union
+from typing import Union, List, Any, Dict
 
-from models.screen import Screen
+from models.screen import Screen, Book
+
 
 def accept_input(
     screen: Screen,
@@ -47,3 +48,14 @@ def insert_attr(screen: Screen, attr: str, context_object: str) -> None:
         sleep(0.6)
 
     sleep(0.4)
+
+
+def get_book_list(dicts: List[Dict[str, Any]]) -> List[Book]:
+    result: List[Book] = []
+
+    for dct in dicts:
+        new_book = Book()
+        new_book.from_dict(dct)
+        result.append(new_book)
+
+    return result

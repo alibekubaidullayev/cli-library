@@ -1,8 +1,8 @@
 import enum
 from datetime import datetime
-from typing import Optional, Dict
+from typing import Any, Dict, Optional
 
-from core.consts import BOOK_TABLE_NAME, TITLE_MAX_SIZE, AUTHOR_MAX_SIZE
+from core.consts import AUTHOR_MAX_SIZE, BOOK_TABLE_NAME, TITLE_MAX_SIZE
 from db.base import get_max_id
 
 
@@ -45,6 +45,9 @@ class Book:
         if self._title and self._author and self._year:
             self.fully_set = True
 
+    def _set_id(self, value: int) -> None:
+        self._id = value
+
     @property
     def title(self) -> str:
         return self._title
@@ -71,15 +74,19 @@ class Book:
 
     @year.setter
     def year(self, value: int) -> None:
-        if not (0 <= value <= datetime.now().year):
+        if not (-2000 <= value <= datetime.now().year):
             raise AttributeError(
-                f"The year must be between 0 and {datetime.now().year}"
+                f"The year must be between -2000 and {datetime.now().year}"
             )
         self._year = value
 
     @property
     def status(self) -> BookStatus:
         return self._status
+
+    @status.setter
+    def status(self, value: str) -> None:
+        self._status = BookStatus(value)
 
     @property
     def id(self) -> int:
@@ -102,7 +109,7 @@ class Book:
         return f"{', '.join(parts)}"
 
     def to_dict(self) -> Dict:
-        dict = {
+        return {
             "id": self._id,
             "title": self.title,
             "author": self.author,
@@ -110,4 +117,27 @@ class Book:
             "status": self.status.value,
         }
 
-        return dict
+    def from_dict(self, dict: Dict[str, Any]) -> None:
+        required_fields = ["id", "title", "author", "year", "status"]
+
+        for field in required_fields:
+            value = dict.get(field)
+            if value is None:
+                raise AttributeError(f"No {field} in given dict")
+            setattr(self, field if field != "id" else "_id", value)
+
+        self.fully_set = bool(self._title and self._author and self._year)
+
+    def has_substring(self, prompt: str, attr_name: str = "") -> bool:
+        prompt = prompt.lower()
+        if attr_name:
+            if not hasattr(self, "_" + attr_name):
+                raise AttributeError(f"Book has no attribute '{attr_name}'")
+            attr_value = getattr(self, "_" + attr_name)
+            return prompt in str(attr_value).lower()
+
+        return (
+            prompt in self._title.lower()
+            or prompt in self._author.lower()
+            or prompt in str(self._year).lower()
+        )

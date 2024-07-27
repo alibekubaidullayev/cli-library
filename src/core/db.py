@@ -1,9 +1,10 @@
-import os
 import json
-from typing import Dict, Any, List
+import os
+from typing import Any, Dict, List
 
 from custom_types import DatabaseError
-from .consts import BOOK_TABLE_NAME, DB_PATH
+
+from .consts import DB_PATH
 
 
 def read_db(file_path: str) -> Dict[str, Any]:
