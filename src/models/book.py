@@ -1,12 +1,9 @@
 import enum
-import json
 from datetime import datetime
 from typing import Optional, Dict
 
-from db import get_max_id
-
-TITLE_MAX_SIZE: int = 50
-AUTHOR_MAX_SIZE: int = 50
+from core.consts import BOOK_TABLE_NAME, TITLE_MAX_SIZE, AUTHOR_MAX_SIZE
+from db.base import get_max_id
 
 
 class BookStatus(enum.Enum):
@@ -19,12 +16,9 @@ class Book:
 
     @classmethod
     def _generate_id(cls) -> int:
+        cls._id_counter = get_max_id(BOOK_TABLE_NAME)
         cls._id_counter += 1
         return cls._id_counter
-
-    @classmethod
-    def initialize_id_counter(cls) -> None:
-        cls._id_counter = get_max_id("books")
 
     def __init__(
         self,
@@ -46,7 +40,6 @@ class Book:
             self.year = year
 
         self._status = status
-        Book.initialize_id_counter()
         self._id = self._generate_id()
 
         if self._title and self._author and self._year:
@@ -118,4 +111,3 @@ class Book:
         }
 
         return dict
-        # return json.dumps(dict, indent=4)

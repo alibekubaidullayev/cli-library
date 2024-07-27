@@ -1,0 +1,11 @@
+{
+    "books": [
+        {
+            "id": 0,
+            "title": "3",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        }
+    ]
+}

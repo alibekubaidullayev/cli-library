@@ -1,10 +1,7 @@
-import time
+from time import sleep
 from typing import Union
 
-from models import Book
-from screen import Screen
-from db import create_book
-
+from models.screen import Screen
 
 def accept_input(
     screen: Screen,
@@ -47,17 +44,6 @@ def insert_attr(screen: Screen, attr: str, context_object: str) -> None:
             print("Cancelling assignment")
     elif isinstance(done_or_err, str):
         print(done_or_err)
-        time.sleep(0.5)
+        sleep(0.6)
 
-    time.sleep(0.7)
-
-
-def clean_book(screen: Screen) -> None:
-    screen.context["book"] = Book()
-    screen.clean_context_info()
-
-
-def add_book(screen: Screen) -> None:
-    book = screen.context["book"]
-    create_book(book)
-    clean_book(screen)
+    sleep(0.4)

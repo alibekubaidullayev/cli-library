@@ -2,8 +2,8 @@ import sys
 import time
 from typing import Callable, Union, Optional
 
-from menu import Menu
-from models import Book
+from .menu import Menu
+from .book import Book
 
 
 class Screen:

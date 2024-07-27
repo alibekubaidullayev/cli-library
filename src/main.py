@@ -1,10 +1,10 @@
-from controls import clean_book, insert_attr, add_book
-from menu import Menu
-from screen import Screen
+from core import BOOK_TABLE_NAME, init_db
+from utils import insert_attr
+from controls import clean_book, add_book
+from models import Menu, Screen
 
-from db import init_db
 
-init_db(["books"])
+init_db([BOOK_TABLE_NAME])
 
 root_menu = Menu("Main Menu", root=True)
 screen = Screen(root_menu)
