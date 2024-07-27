@@ -1,7 +1,9 @@
 import enum
 import json
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict
+
+from db import get_max_id
 
 TITLE_MAX_SIZE: int = 50
 AUTHOR_MAX_SIZE: int = 50
@@ -19,6 +21,10 @@ class Book:
     def _generate_id(cls) -> int:
         cls._id_counter += 1
         return cls._id_counter
+
+    @classmethod
+    def initialize_id_counter(cls) -> None:
+        cls._id_counter = get_max_id("books")
 
     def __init__(
         self,
@@ -40,6 +46,7 @@ class Book:
             self.year = year
 
         self._status = status
+        Book.initialize_id_counter()
         self._id = self._generate_id()
 
         if self._title and self._author and self._year:
@@ -101,13 +108,14 @@ class Book:
             parts.append(f"year: {self.year}")
         return f"{', '.join(parts)}"
 
-    def to_json(self) -> str:
+    def to_dict(self) -> Dict:
         dict = {
             "id": self._id,
             "title": self.title,
             "author": self.author,
             "year": self.year,
-            "status": self.status,
+            "status": self.status.value,
         }
 
-        return json.dumps(dict, indent=4)
+        return dict
+        # return json.dumps(dict, indent=4)

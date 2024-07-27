@@ -1,7 +1,8 @@
+import os
 import json
 from typing import Dict, Any, List
 
-from utils import JSONSerializable
+from utils import DictProtocol
 
 DB_PATH = "db.json"
 
@@ -21,7 +22,8 @@ class ItemNotFoundError(DatabaseError):
 def read_db(file_path: str) -> Dict[str, Any]:
     try:
         with open(file_path, "r") as file:
-            return json.load(file)
+            data = json.load(file)
+            return data
     except FileNotFoundError:
         raise DatabaseError(f"DB file '{file_path}' not found.")
     except json.JSONDecodeError:
@@ -37,7 +39,15 @@ def write_db(file_path: str, data: Dict[str, Any]) -> None:
 
 
 def init_db(tables: List[str]) -> None:
-    db_scheme = {table: [] for table in tables}
+    if os.path.exists(DB_PATH):
+        db_scheme = read_db(DB_PATH)
+    else:
+        db_scheme = {}
+
+    for table in tables:
+        if table not in db_scheme:
+            db_scheme[table] = []
+
     write_db(DB_PATH, db_scheme)
 
 
@@ -53,10 +63,10 @@ def save_table(db: Dict[str, Any], table: str, db_table: list) -> None:
     write_db(DB_PATH, db)
 
 
-def create(obj: JSONSerializable, table: str) -> None:
+def create(obj: DictProtocol, table: str) -> None:
     db = read_db(DB_PATH)
     db_table = get_table(db, table)
-    db_table.append(obj.to_json())
+    db_table.append(obj.to_dict())
     save_table(db, table, db_table)
 
 
@@ -90,7 +100,7 @@ def delete(id: int, table: str) -> None:
     raise ItemNotFoundError(f"Item with id '{id}' not found in table '{table}'.")
 
 
-def create_book(obj: JSONSerializable) -> None:
+def create_book(obj: DictProtocol) -> None:
     create(obj, "books")
 
 
@@ -104,3 +114,13 @@ def delete_book(id: int) -> None:
 
 def list_books() -> List[Dict[str, Any]]:
     return list("books")
+
+
+def get_max_id(table: str) -> int:
+    try:
+        db = read_db(DB_PATH)
+        db_table = get_table(db, table)
+        max_id = max(item.get("id", -1) for item in db_table)
+        return max_id
+    except Exception:
+        return -1

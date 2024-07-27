@@ -1,0 +1,46 @@
+{
+    "books": [
+        {
+            "id": 0,
+            "title": "2",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        },
+        {
+            "id": 1,
+            "title": "2",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        },
+        {
+            "id": 2,
+            "title": "4",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        },
+        {
+            "id": 3,
+            "title": "2",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        },
+        {
+            "id": 4,
+            "title": "5",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        },
+        {
+            "id": 5,
+            "title": "2",
+            "author": "",
+            "year": 0,
+            "status": "in_stock"
+        }
+    ]
+}
