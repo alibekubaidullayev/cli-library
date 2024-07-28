@@ -2,6 +2,15 @@ from typing import Callable, Dict, List, Optional, Union
 
 
 class Element:
+    """
+    Класс представляющий из себя "кнопку". Хранит в себе название, ключ (тригер) и действие (или меню)
+
+    Атрибуты:
+    -   name (str): название кнопки которое будет отображено
+    -   action (Callable, Menu): функция, или меню которое хранится в этом элементе
+    -   key (str): ключ по которому активируется action
+    """
+
     def __init__(
         self,
         action: Union[Callable, "Menu"],
@@ -29,9 +38,21 @@ class Element:
 
 
 class Menu:
-    _element_counter = 0
-    _control_counter = -1
-    _labels = "QWERTYUIOP"
+    """
+    Класс, представляющий меню. Хранит в себе элементы и управляющие элементы меню.
+
+    Атрибуты:
+    - _name (str): название меню.
+    - _elements (List[Element]): список элементов меню.
+    - _controls (List[Element]): список управляющих элементов меню.
+    - _previous (Optional[Menu]): ссылка на предыдущее меню.
+    - _root (bool): является ли это корневым меню.
+    - _mapping (Dict[Optional[str], Union[Callable, Menu]]): отображение ключей на действия или подменю.
+    """
+
+    _element_counter: int = 0
+    _control_counter: int = -1
+    _labels: str = "QWERTYUIOP"
 
     def __init__(self, name: str, root: bool = False) -> None:
         self._name: str = name
@@ -45,10 +66,18 @@ class Menu:
             self.add_control(name="Exit", action=lambda: exit(), key="x")
 
     def give_key(self) -> int:
+        """
+        Выдает ключ от 1 до inf+ в списке элементов
+        """
         self._element_counter += 1
         return self._element_counter
 
     def give_cnt(self) -> str:
+        """
+        Выдает ключ от Q до P для управляющих элементов в меню
+        Так как иметь больше 3-4 управляющих элементов в меню не
+        целесобразно я ограничился только буквами от Q до P на верхнем ряду клавиатуры
+        """
         self._control_counter += 1
         return self._labels[self._control_counter]
 
@@ -85,16 +114,23 @@ class Menu:
 
     def draw_menu(self) -> None:
         print(f"***{self._name}***")
-        print("-" * self.get_controls_len())
+        self.draw_frame()
         self.draw_elements()
+        self.draw_frame()
         self.draw_controls()
-        print("-" * self.get_controls_len())
+        self.draw_frame()
 
     def draw_elements(self) -> None:
         for el in self._elements:
             print(el)
 
+    def draw_frame(self) -> None:
+        print("-" * self.get_controls_len())
+
     def get_controls_len(self) -> int:
+        """
+        Функция нужна для отрисовки рамок по размеру с панелью элементов
+        """
         return sum([len(cn) for cn in self._controls]) + len(self._controls)
 
     def draw_controls(self) -> None:
@@ -103,10 +139,16 @@ class Menu:
         print()
 
     def set_mapping(self) -> None:
+        """
+        Выставляет ключ и соотвествующий элемент для внешнего доступа
+        """
         self._mapping = {el.key: el.action for el in self._elements}
         self._mapping.update({cn.key: cn.action for cn in self._controls})
 
     def get_mapping(self) -> Dict[Optional[str], Union[Callable, "Menu"]]:
+        """
+        Возвращает ключ-элемент соотвествующий этой меню
+        """
         self.set_mapping()
         return self._mapping
 

@@ -1,3 +1,4 @@
+from time import sleep
 from typing import List
 
 from db import create_book, list_books
@@ -26,5 +27,15 @@ def search_book(screen: Screen, attr: str = "", prompt: str = "") -> List[Book]:
         if book.has_substring(prompt=prompt, attr_name=attr):
             result.append(book)
 
-    screen.context["context_info"][screen.menu] = "\n".join(map(str, result))
+    screen.set_context_info("\n".join(map(str, result)))
     return result
+
+
+def all_books(screen: Screen) -> None:
+    books = get_book_list(list_books())
+    for book in books:
+        print(book)
+        sleep(0.05)
+
+    input("Press any key to leave...")
+    screen.take_action("q")
