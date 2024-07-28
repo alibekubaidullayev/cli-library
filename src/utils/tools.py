@@ -9,6 +9,13 @@ def accept_input(
     field_name: str,
     cntx_obj_name: str,
 ) -> Union[bool, str]:
+    """
+    Записывает в поле (field_name) объекта из контекста (cntx_obj_name)
+    при этом кастит вводимый в inp значение в тип (field_name).
+    Возвращает либо False (отмена записи), True (успешная запись) либо
+    текст ошибки. Данная функция работает в связке с insert_attr.
+    Использован подход 'error as the value'.
+    """
     if not hasattr(screen.context.get(cntx_obj_name), field_name):
         raise AttributeError(
             f"{screen.context.get(cntx_obj_name)} has no attribute {field_name}"
@@ -35,6 +42,9 @@ def accept_input(
 
 
 def insert_attr(screen: Screen, attr: str, context_object: str) -> None:
+    """
+    Работает непосредственно экраном для печати ошибок, либо сообщений об отмене, либо успехе.
+    """
     done_or_err: Union[bool, str] = accept_input(screen, attr, context_object)
 
     if isinstance(done_or_err, bool):

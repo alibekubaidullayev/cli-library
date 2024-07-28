@@ -1,4 +1,4 @@
-from controls.controls import all_books
+from controls import all_books
 from core import BOOK_TABLE_NAME, init_db
 from menus import book_add_menu_create, book_search_menu_create
 from models import Menu, Screen
